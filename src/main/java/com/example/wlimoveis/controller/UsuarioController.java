@@ -1,6 +1,5 @@
 package com.example.wlimoveis.controller;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,20 +41,34 @@ public class UsuarioController {
         return ResponseEntity.ok(novo);
     }
 
-    @PutMapping("/{id}") // atualizar
-    public ResponseEntity<?> atualizar(@PathVariable ObjectId id, @RequestBody Usuario usuarioAtualizado) {
-        return usuarioService.atualizar(id, usuarioAtualizado)
+    @PutMapping("/{usuarioId}") // atualizar
+    public ResponseEntity<?> atualizar(@PathVariable String usuarioId,
+     @RequestBody Usuario usuarioAtualizado) {
+        return usuarioService.atualizar(usuarioId, usuarioAtualizado)
                 .map(usuario -> ResponseEntity.ok(usuario))
                 .orElse(ResponseEntity.notFound().build());
     } 
 
-    @DeleteMapping("/{id}") // deletar
-    public ResponseEntity<?> excluir(@PathVariable ObjectId id) {
-        boolean removido = usuarioService.excluir(id);
+    @DeleteMapping("/{usuarioId}") // deletar
+    public ResponseEntity<?> excluir(@PathVariable String usuarioId) {
+        boolean removido = usuarioService.excluir(usuarioId);
         if (removido) {
             return ResponseEntity.ok("Usuário removido com sucesso.");
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/todos")
+    public ResponseEntity<Iterable<Usuario>> buscarTodos() {
+        Iterable<Usuario> usuarios = usuarioService.buscarTodos();
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/{usuarioId}") // buscar por ID
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable String usuarioId) {
+        return usuarioService.buscarPorId(usuarioId)
+                .map(usuario -> ResponseEntity.ok(usuario))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
