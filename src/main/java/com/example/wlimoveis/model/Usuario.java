@@ -1,25 +1,26 @@
 package com.example.wlimoveis.model;
 
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "usuarios")
 public class Usuario {
 
-    private ObjectId id;
+    @Id
+    private String usuarioId;
     private String nome;
     private String email;
     private String senha;
 
-    public Usuario(ObjectId id, String nome, String email, String senha) {
-        this.id = id;
+    public Usuario(String usuarioId, String nome, String email, String senha) {
+        this.usuarioId = usuarioId;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
     }
 
-    public ObjectId getId() { return id; }
-    public void setId(ObjectId id) { this.id = id; }
+    public String getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(String usuarioId) { this.usuarioId = usuarioId; }
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }

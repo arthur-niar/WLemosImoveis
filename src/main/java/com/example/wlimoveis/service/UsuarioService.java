@@ -2,7 +2,6 @@ package com.example.wlimoveis.service;
 
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -36,12 +35,12 @@ public class UsuarioService {
         }
     }
 
-    public Optional<Usuario> atualizar(ObjectId id, Usuario atualizado) {
-        if (!usuarioRepository.existsById(id)) {
+    public Optional<Usuario> atualizar(String usuarioId, Usuario atualizado) {
+        if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
             "Usuário não encontrado"); 
         }
-        return usuarioRepository.findById(id).map(usuario -> {
+        return usuarioRepository.findById(usuarioId).map(usuario -> {
             usuario.setNome(atualizado.getNome());
             usuario.setEmail(atualizado.getEmail());
             usuario.setSenha(atualizado.getSenha());
@@ -49,13 +48,20 @@ public class UsuarioService {
         });
     }
 
-    public boolean excluir(ObjectId id) {
-        if (!usuarioRepository.existsById(id)) {
+    public boolean excluir(String usuarioId) {
+        if (!usuarioRepository.existsById(usuarioId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
             "Usuário não encontrado");
         }
-        usuarioRepository.deleteById(id);
+        usuarioRepository.deleteById(usuarioId);
         return true;
     }
 
+    public Optional<Usuario> buscarPorId(String usuarioId) {
+        return usuarioRepository.findById(usuarioId);
+    }
+
+    public Iterable<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
+    }
 }
