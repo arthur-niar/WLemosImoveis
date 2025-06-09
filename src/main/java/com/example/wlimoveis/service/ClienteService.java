@@ -41,6 +41,7 @@ public class ClienteService {
             cliente.setNome(usuario.getNome());
             cliente.setEmail(usuario.getEmail());
             cliente.setSenha(usuario.getSenha());
+            cliente.setTelefone(cliente.getTelefone());
 
             return clienteRepository.save(cliente);
         } catch (IllegalArgumentException e) {
@@ -49,12 +50,12 @@ public class ClienteService {
         }
     }
 
-    public Optional<Cliente> atualizar(String clienteId, Cliente atualizado) {
-        if (!clienteRepository.existsById(clienteId)) {
+    public Optional<Cliente> atualizar(String usuarioId, Cliente atualizado) {
+        if (!clienteRepository.existsById(usuarioId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
             "Cliente não encontrado");
         }
-        return clienteRepository.findById(clienteId).map(cliente -> {
+        return clienteRepository.findById(usuarioId).map(cliente -> {
             cliente.setNome(atualizado.getNome());
             cliente.setEmail(atualizado.getEmail());
             cliente.setSenha(atualizado.getSenha());
@@ -73,8 +74,8 @@ public class ClienteService {
         return true;
     }
 
-    public Optional<Cliente> buscarPorId(String clienteId) {
- return clienteRepository.findById(clienteId);
+    public Optional<Cliente> buscarPorId(String usuarioId) {
+        return clienteRepository.findById(usuarioId);
     }
 
     public Optional<Cliente> buscarPorUsuarioId(String usuarioId) {
