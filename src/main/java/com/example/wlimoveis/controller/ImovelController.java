@@ -58,24 +58,35 @@ public class ImovelController {
 
     @GetMapping("/buscar")
     public ResponseEntity<?> buscarPorCampos(
-            @RequestParam(required = false) String imovelId,
-            @RequestParam(required = false) String nome,
-            @RequestParam(required = false) String tipo,
-            @RequestParam(required = false) String situacao,
-            @RequestParam(required = false) String cidade,
-            @RequestParam(required = false) String bairro,
-            @RequestParam(required = false) String rua,
-            @RequestParam(required = false) String numero,
-            @RequestParam(required = false) String complemento,
-            @RequestParam(required = false) BigDecimal preco,
-            @RequestParam(required = false) Double tamanho,
-            @RequestParam(required = false) 
-                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
-            @RequestParam(required = false) 
-                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim) {
+        @RequestParam(required = false) String imovelId,
+        @RequestParam(required = false) String nome,
+        @RequestParam(required = false) String tipo,
+        @RequestParam(required = false) String situacao,
+        @RequestParam(required = false) String cidade,
+        @RequestParam(required = false) String bairro,
+        @RequestParam(required = false) String rua,
+        @RequestParam(required = false) String numero,
+        @RequestParam(required = false) String complemento,
+        @RequestParam(required = false) BigDecimal preco,
+        @RequestParam(required = false) BigDecimal precoMin,
+        @RequestParam(required = false) BigDecimal precoMax,
+        @RequestParam(required = false) Double tamanho,
+        @RequestParam(required = false) Double tamanhoMin,
+        @RequestParam(required = false) Double tamanhoMax,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFim,
+        @RequestParam(required = false) String descricao) {
+        // Ajuste os parâmetros conforme a assinatura do método buscarPorCampos em ImovelService
         List<Imovel> resultado = imovelService.buscarPorCampos(
-                imovelId, nome, tipo, situacao, cidade, bairro, rua, numero, complemento, preco,
-                tamanho != null ? tamanho : 0, dataInicio, dataFim);
+                imovelId, nome, tipo, situacao, cidade, bairro, rua, numero, complemento, 
+                preco, // BigDecimal preco
+                precoMin, // BigDecimal precoMin
+                precoMax, // BigDecimal precoMax
+                tamanho != null ? tamanho : 0, // double tamanho
+                tamanhoMin, // Double tamanhoMin
+                tamanhoMax, // Double tamanhoMax
+                dataInicio, dataFim,
+                descricao);
         return ResponseEntity.ok(resultado);
     }
 
@@ -84,4 +95,27 @@ public class ImovelController {
         List<Imovel> imoveis = imovelService.buscarTodos();
         return ResponseEntity.ok(imoveis);
     }
+
+    // @GetMapping("/precomax")
+    // public ResponseEntity<Imovel> precoMax() {
+    //     Imovel imovelMaisCaro = imovelService.precoMax();
+    //     return ResponseEntity.ok(imovelMaisCaro);
+    // }
+
+    // @GetMapping("/precomin")
+    // public ResponseEntity<Imovel> precoMin() {
+    //     Imovel imovelMenosCaro = imovelService.precoMin();
+    //     return ResponseEntity.ok(imovelMenosCaro);
+    // }
+
+    // @GetMapping("/tamanhomax")
+    // public ResponseEntity<Imovel> tamanhoMax() {
+    //     Imovel imovelMaior = imovelService.tamanhoMax();
+    //     return ResponseEntity.ok(imovelMaior);
+    // }
+    // @GetMapping("/tamanhomin")
+    // public ResponseEntity<Imovel> tamanhoMin() {
+    //     Imovel imovelMenor = imovelService.tamanhoMin();
+    //     return ResponseEntity.ok(imovelMenor);
+    // }
 }
