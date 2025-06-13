@@ -19,7 +19,11 @@ public interface ImovelRepository extends MongoRepository<Imovel, String> {
     List<Imovel> findByEndereco_Numero(String numero);
     List<Imovel> findByEndereco_Complemento(String complemento);
     List<Imovel> findByPreco(BigDecimal preco);
+    Imovel findFirstByOrderByPrecoDesc();
+    Imovel findFirstByOrderByPrecoAsc();
     List<Imovel> findByTamanho(double tamanho);
+    Imovel findFirstByOrderByTamanhoDesc();
+    Imovel findFirstByOrderByTamanhoAsc();
     List<Imovel> findByDataCadastroBetween(LocalDateTime dataInicio, LocalDateTime dataFim);
 
 }
